@@ -9,7 +9,6 @@ Connects TeamSpeak users via different chat services.
 **Coming soon**
 
 - [Discord](https://discordapp.com/)
-- [Signal](https://signal.org/)
 
 ## Installation
 
