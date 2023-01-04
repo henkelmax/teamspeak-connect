@@ -8,7 +8,7 @@ FROM openjdk:17-jdk-slim
 
 RUN mkdir /teamspeakconnect
 
-COPY --from=builder target/steamspeakconnect.jar /teamspeakconnect/teamspeakconnect.jar
+COPY --from=builder target/teamspeakconnect.jar /teamspeakconnect/teamspeakconnect.jar
 
 WORKDIR /teamspeakconnect
 
