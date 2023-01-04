@@ -196,11 +196,11 @@ public class DiscordBot {
     private void forwardMessage(MessageCreateEvent event, de.maxhenkel.teamspeakconnect.database.User sender, Long discordId) {
         api.getUserById(discordId).thenAccept(user -> {
             if (!event.getMessage().getContent().isEmpty()) {
-                user.sendMessage("<@%s>\n%s".formatted(event.getMessageAuthor().getId(), event.getMessage().getContent()));
+                user.sendMessage("<@%s>\n%s".formatted(event.getMessageAuthor().getId(), event.getMessage().getContent())).exceptionally(new ExceptionHandler<>());
             }
             for (MessageAttachment attachment : event.getMessageAttachments()) {
                 try {
-                    user.sendMessage("By <@%s>".formatted(event.getMessageAuthor().getId()), attachment.getUrl().openStream(), attachment.getFileName());
+                    user.sendMessage("By <@%s>".formatted(event.getMessageAuthor().getId()), attachment.getUrl().openStream(), attachment.getFileName()).exceptionally(new ExceptionHandler<>());
                 } catch (IOException e) {
                     LOGGER.error("Failed to open stream", e);
                 }
