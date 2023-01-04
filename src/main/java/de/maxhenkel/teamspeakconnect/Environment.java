@@ -23,9 +23,11 @@ public class Environment {
     public static final String DATABASE_NAME;
 
     public static final String TELEGRAM_BOT_TOKEN;
+    public static final String TELEGRAM_BOT_URL;
 
     public static final String DISCORD_TOKEN;
     public static final long DISCORD_CHANNEL;
+    public static final String DISCORD_SERVER_URL;
 
     static {
         LOGGER.info("Loading environment variables");
@@ -41,15 +43,18 @@ public class Environment {
             TEAMSPEAK_BOT_PASSWORD = dotenv.get("TEAMSPEAK_BOT_PASSWORD", "password");
             TEAMSPEAK_BOT_NAME = dotenv.get("TEAMSPEAK_BOT_NAME", "TeamspeakConnect");
             TEAMSPEAK_BOT_CHANNEL_ID = Integer.parseInt(dotenv.get("TEAMSPEAK_BOT_CHANNEL_ID", "0"));
+
             AUTH_CODE_LIFETIME = Long.parseLong(dotenv.get("AUTH_CODE_LIFETIME", String.valueOf(1000L * 60L * 5L)));
 
             DATABASE_URL = dotenv.get("DATABASE_URL", "localhost:27017");
             DATABASE_NAME = dotenv.get("DATABASE_NAME", "teamspeakconnect");
 
             TELEGRAM_BOT_TOKEN = dotenv.get("TELEGRAM_BOT_TOKEN", "");
+            TELEGRAM_BOT_URL = dotenv.get("TELEGRAM_BOT_URL", "");
 
             DISCORD_TOKEN = dotenv.get("DISCORD_TOKEN", "");
             DISCORD_CHANNEL = Long.parseLong(dotenv.get("DISCORD_CHANNEL", "0"));
+            DISCORD_SERVER_URL = dotenv.get("DISCORD_SERVER_URL", "");
 
             LOGGER.info("Loaded environment variables");
         } catch (Exception e) {

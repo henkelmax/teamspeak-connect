@@ -8,6 +8,7 @@ import com.github.theholywaffle.teamspeak3.api.reconnect.ReconnectStrategy;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ChannelInfo;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
+import de.maxhenkel.teamspeakconnect.Environment;
 import de.maxhenkel.teamspeakconnect.Main;
 import de.maxhenkel.teamspeakconnect.database.User;
 import org.apache.logging.log4j.LogManager;
@@ -113,7 +114,8 @@ public class TeamspeakBot extends TS3EventAdapter {
         User user = Main.DATABASE.getOrCreateUser(event.getInvokerUniqueId());
         Integer authCode = Main.DATABASE.generateAuthCode(user.getId());
         api.sendPrivateMessage(event.getInvokerId(), "Your activation code is [b]%05d[/b]!\nThis code is valid only once and expires after some time.".formatted(authCode));
-        // TODO Add links to Teamspeak, Discord, etc.
+        api.sendPrivateMessage(event.getInvokerId(), "You can use the activation code for the following services:\nTelegram: %s\nDiscord: %s".formatted(Environment.TELEGRAM_BOT_URL, Environment.DISCORD_SERVER_URL));
+
         LOGGER.info("User {} ({}) generated an auth code", event.getInvokerName(), user.getId().toHexString());
     }
 

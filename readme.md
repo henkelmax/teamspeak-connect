@@ -28,5 +28,7 @@ Connects TeamSpeak users via different chat services.
 | `DATABASE_URL`             | The MongoDB database URL                                           | `localhost:27017`    |
 | `DATABASE_NAME`            | The MongoDB database name                                          | `teamspeakconnect`   |
 | `TELEGRAM_BOT_TOKEN`       | The Telegram bot token                                             | ` `                  |
+| `TELEGRAM_BOT_URL`         | The URL to the Telegram bot                                        | ` `                  |
 | `DISCORD_TOKEN`            | The Discord bot token                                              | ` `                  |
 | `DISCORD_CHANNEL`          | The Discord channel ID for the bot                                 | `0`                  |
+| `DISCORD_SERVER_URL`       | The Discord server URL                                             | ` `                  |
