@@ -65,6 +65,11 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
                 return;
             }
 
+            if (!Main.RATE_LIMITER.addRate(user, getMessageCost(message))) {
+                execute(new SendMessage(sender.toString(), "You are rate limited!"));
+                return;
+            }
+
             List<User> clients = Main.TEAMSPEAK_BOT.getClientsInChannel(user.getTeamSpeakId());
 
             if (clients == null) {
@@ -91,6 +96,29 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         } catch (Exception e) {
             LOGGER.error("Failed to process message", e);
         }
+    }
+
+    private static int getMessageCost(Message message) {
+        int cost = 25;
+        if (message.getDocument() != null) {
+            cost += 100;
+        }
+        if (message.getPhoto() != null) {
+            cost += 25;
+        }
+        if (message.getVoice() != null) {
+            cost += 50;
+        }
+        if (message.getAudio() != null) {
+            cost += 50;
+        }
+        if (message.getVideoNote() != null) {
+            cost += 50;
+        }
+        if (message.getVideo() != null) {
+            cost += 100;
+        }
+        return cost;
     }
 
     public TelegramFileDownloader getTelegramFileDownloader() {

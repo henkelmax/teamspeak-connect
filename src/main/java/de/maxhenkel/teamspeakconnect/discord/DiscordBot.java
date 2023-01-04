@@ -161,6 +161,11 @@ public class DiscordBot {
             return;
         }
 
+        if (!Main.RATE_LIMITER.addRate(sender, getMessageCost(event))) {
+            event.getMessage().reply("You are rate limited!").exceptionally(new ExceptionHandler<>());
+            return;
+        }
+
         List<de.maxhenkel.teamspeakconnect.database.User> clients = Main.TEAMSPEAK_BOT.getClientsInChannel(sender.getTeamSpeakId());
 
         if (clients == null) {
@@ -180,6 +185,12 @@ public class DiscordBot {
                 forwardMessage(event, sender, client.getDiscordId());
             }
         }
+    }
+
+    private static int getMessageCost(MessageCreateEvent event) {
+        int cost = 25;
+        cost += event.getMessageAttachments().size() * 75;
+        return cost;
     }
 
     private void forwardMessage(MessageCreateEvent event, de.maxhenkel.teamspeakconnect.database.User sender, Long discordId) {

@@ -2,6 +2,7 @@ package de.maxhenkel.teamspeakconnect;
 
 import de.maxhenkel.teamspeakconnect.database.Database;
 import de.maxhenkel.teamspeakconnect.discord.DiscordBot;
+import de.maxhenkel.teamspeakconnect.ratelimit.RateLimiter;
 import de.maxhenkel.teamspeakconnect.teamspeak.TeamspeakBot;
 import de.maxhenkel.teamspeakconnect.telegram.TelegramBot;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -19,12 +21,17 @@ public class Main {
     public static TelegramBot TELEGRAM_BOT;
     public static DiscordBot DISCORD_BOT;
     public static ScheduledExecutorService EXECUTOR;
+    public static RateLimiter RATE_LIMITER;
 
     public static void main(String[] args) throws Exception {
         LOGGER.info("Starting TeamspeakConnect");
 
         LOGGER.info("Starting executor");
         EXECUTOR = Executors.newSingleThreadScheduledExecutor();
+
+        LOGGER.info("Starting rate limiter");
+        RATE_LIMITER = new RateLimiter(1000);
+        EXECUTOR.scheduleAtFixedRate(RATE_LIMITER::updateRates, 10, 10, TimeUnit.SECONDS);
 
         LOGGER.info("Connecting to database");
         DATABASE = new Database();
@@ -50,8 +57,6 @@ public class Main {
         LOGGER.info("Starting Discord bot");
         DISCORD_BOT = new DiscordBot(Environment.DISCORD_TOKEN);
         DISCORD_BOT.connect();
-
-        //TODO Add rate limit for users
     }
 
 }
