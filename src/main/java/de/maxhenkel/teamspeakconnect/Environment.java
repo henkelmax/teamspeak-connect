@@ -31,7 +31,7 @@ public class Environment {
         LOGGER.info("Loading environment variables");
 
         try {
-            Dotenv dotenv = Dotenv.load();
+            Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
             TEAMSPEAK_HOST = dotenv.get("TEAMSPEAK_HOST", "localhost");
             TEAMSPEAK_QUERY_PORT = Integer.parseInt(dotenv.get("TEAMSPEAK_QUERY_PORT", "10022"));
             TEAMSPEAK_QUERY_USERNAME = dotenv.get("TEAMSPEAK_QUERY_USERNAME", "serveradmin");
