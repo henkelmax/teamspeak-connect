@@ -29,3 +29,4 @@ Connects TeamSpeak users via different chat services.
 | `DATABASE_NAME`            | The MongoDB database name                                          | `teamspeakconnect`   |
 | `TELEGRAM_BOT_TOKEN`       | The Telegram bot token                                             | ` `                  |
 | `DISCORD_TOKEN`            | The Discord bot token                                              | ` `                  |
+| `DISCORD_CHANNEL`          | The Discord channel ID for the bot                                 | `0`                  |

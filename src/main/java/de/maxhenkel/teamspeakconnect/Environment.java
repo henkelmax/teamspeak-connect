@@ -25,6 +25,7 @@ public class Environment {
     public static final String TELEGRAM_BOT_TOKEN;
 
     public static final String DISCORD_TOKEN;
+    public static final long DISCORD_CHANNEL;
 
     static {
         LOGGER.info("Loading environment variables");
@@ -48,6 +49,7 @@ public class Environment {
             TELEGRAM_BOT_TOKEN = dotenv.get("TELEGRAM_BOT_TOKEN", "");
 
             DISCORD_TOKEN = dotenv.get("DISCORD_TOKEN", "");
+            DISCORD_CHANNEL = Long.parseLong(dotenv.get("DISCORD_CHANNEL", "0"));
 
             LOGGER.info("Loaded environment variables");
         } catch (Exception e) {

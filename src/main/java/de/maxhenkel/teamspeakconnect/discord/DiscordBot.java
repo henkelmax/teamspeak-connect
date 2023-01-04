@@ -1,5 +1,6 @@
 package de.maxhenkel.teamspeakconnect.discord;
 
+import de.maxhenkel.teamspeakconnect.Environment;
 import de.maxhenkel.teamspeakconnect.Main;
 import de.maxhenkel.teamspeakconnect.telegram.DiscordTelegramConverter;
 import org.apache.logging.log4j.LogManager;
@@ -7,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
-import org.javacord.api.entity.channel.ServerChannel;
+import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageFlag;
@@ -50,11 +51,7 @@ public class DiscordBot {
         api.addMessageCreateListener(this::onMessage);
 
         for (Server server : api.getServers()) {
-            for (ServerChannel channel : server.getChannels()) {
-                if (channel.getName().equals("teamspeak-connect")) {
-                    channel.asServerTextChannel().ifPresent(this::initChannel);
-                }
-            }
+            server.getChannelById(Environment.DISCORD_CHANNEL).flatMap(Channel::asServerTextChannel).ifPresent(this::initChannel);
         }
     }
 
