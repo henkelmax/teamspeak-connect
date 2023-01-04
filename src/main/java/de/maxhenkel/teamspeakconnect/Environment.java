@@ -24,6 +24,8 @@ public class Environment {
 
     public static final String TELEGRAM_BOT_TOKEN;
 
+    public static final String DISCORD_TOKEN;
+
     static {
         LOGGER.info("Loading environment variables");
 
@@ -44,6 +46,8 @@ public class Environment {
             DATABASE_NAME = dotenv.get("DATABASE_NAME", "teamspeakconnect");
 
             TELEGRAM_BOT_TOKEN = dotenv.get("TELEGRAM_BOT_TOKEN", "");
+
+            DISCORD_TOKEN = dotenv.get("DISCORD_TOKEN", "");
 
             LOGGER.info("Loaded environment variables");
         } catch (Exception e) {

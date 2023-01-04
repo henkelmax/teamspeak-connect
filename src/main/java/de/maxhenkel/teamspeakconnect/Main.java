@@ -1,6 +1,7 @@
 package de.maxhenkel.teamspeakconnect;
 
 import de.maxhenkel.teamspeakconnect.database.Database;
+import de.maxhenkel.teamspeakconnect.discord.DiscordBot;
 import de.maxhenkel.teamspeakconnect.teamspeak.TeamspeakBot;
 import de.maxhenkel.teamspeakconnect.telegram.TelegramBot;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ public class Main {
     public static TeamspeakBot TEAMSPEAK_BOT;
     public static Database DATABASE;
     public static TelegramBot TELEGRAM_BOT;
+    public static DiscordBot DISCORD_BOT;
     public static ScheduledExecutorService EXECUTOR;
 
     public static void main(String[] args) throws Exception {
@@ -44,6 +46,12 @@ public class Main {
         LOGGER.info("Starting Telegram bot");
         TELEGRAM_BOT = new TelegramBot(Environment.TELEGRAM_BOT_TOKEN);
         TELEGRAM_BOT.connect();
+
+        LOGGER.info("Starting Discord bot");
+        DISCORD_BOT = new DiscordBot(Environment.DISCORD_TOKEN);
+        DISCORD_BOT.connect();
+
+        //TODO Add rate limit for users
     }
 
 }

@@ -20,6 +20,8 @@ public class User {
     @Nullable
     private Long telegramId;
     @Nullable
+    private Long discordId;
+    @Nullable
     private Integer authCode;
     @Nullable
     private Date authCodeDate;
@@ -53,6 +55,15 @@ public class User {
 
     public void setTelegramId(@Nullable Long telegramId) {
         this.telegramId = telegramId;
+    }
+
+    @Nullable
+    public Long getDiscordId() {
+        return discordId;
+    }
+
+    public void setDiscordId(@Nullable Long discordId) {
+        this.discordId = discordId;
     }
 
     @Nullable
@@ -97,6 +108,9 @@ public class User {
                 if (value.getTelegramId() != null) {
                     document.append("telegramId", value.getTelegramId());
                 }
+                if (value.getDiscordId() != null) {
+                    document.append("discordId", value.getDiscordId());
+                }
                 documentCodec.encode(writer, document, encoderContext);
             }
         }
@@ -113,6 +127,9 @@ public class User {
             }
             if (document.containsKey("telegramId")) {
                 user.setTelegramId(document.getLong("telegramId"));
+            }
+            if (document.containsKey("discordId")) {
+                user.setDiscordId(document.getLong("discordId"));
             }
             return user;
         }

@@ -71,6 +71,20 @@ public class Database {
     }
 
     @Nullable
+    public User getUserByDiscordId(Long discordId) {
+        return users.find(eq("discordId", discordId), User.class).first();
+    }
+
+    public boolean setDiscordId(ObjectId userId, Long discordId) {
+        User user = getUser(userId);
+        if (user == null) {
+            return false;
+        }
+        users.findOneAndUpdate(eq("_id", userId), set("discordId", discordId));
+        return true;
+    }
+
+    @Nullable
     public User getUser(ObjectId user) {
         return users.find(eq("_id", user), User.class).first();
     }

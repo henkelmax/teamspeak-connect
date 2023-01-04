@@ -2,9 +2,11 @@ package de.maxhenkel.teamspeakconnect.telegram;
 
 import de.maxhenkel.teamspeakconnect.Main;
 import de.maxhenkel.teamspeakconnect.database.User;
+import de.maxhenkel.teamspeakconnect.discord.TelegramDiscordConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,6 +24,8 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     private final String botToken;
     private TelegramBotsApi bot;
 
+    private TelegramFileDownloader telegramFileDownloader;
+
     public TelegramBot(String botToken) {
         this.botToken = botToken;
     }
@@ -31,6 +35,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         bot.registerBot(this);
         register(new StartCommand());
         register(new ConnectCommand());
+        telegramFileDownloader = new TelegramFileDownloader(this::getBotToken);
     }
 
     @Override
@@ -71,17 +76,25 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
             builder.fromChatId(message.getChatId());
             builder.messageId(message.getMessageId());
             for (User client : clients) {
-                if (client.getTelegramId() == null) {
+                if (client.getTelegramId() != null && client.getTelegramId().equals(sender)) {
                     continue;
                 }
-                if (client.getTelegramId().equals(sender)) {
-                    continue;
+                if (client.getTelegramId() != null) {
+                    builder.chatId(client.getTelegramId());
+                    execute(builder.build());
                 }
-                builder.chatId(client.getTelegramId());
-                execute(builder.build());
+                //TODO Handle properly
+                if (client.getDiscordId() != null && Main.DISCORD_BOT != null && Main.DISCORD_BOT.getApi() != null) {
+                    TelegramDiscordConverter.sendDiscord(update, user, client.getDiscordId());
+                }
             }
         } catch (Exception e) {
             LOGGER.error("Failed to process message", e);
         }
     }
+
+    public TelegramFileDownloader getTelegramFileDownloader() {
+        return telegramFileDownloader;
+    }
+
 }

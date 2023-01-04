@@ -5,9 +5,6 @@ Connects TeamSpeak users via different chat services.
 ## Supported Services
 
 - [Telegram](https://telegram.org/)
-
-**Coming soon**
-
 - [Discord](https://discordapp.com/)
 
 ## Installation
@@ -31,3 +28,4 @@ Connects TeamSpeak users via different chat services.
 | `DATABASE_URL`             | The MongoDB database URL                                           | `localhost:27017`    |
 | `DATABASE_NAME`            | The MongoDB database name                                          | `teamspeakconnect`   |
 | `TELEGRAM_BOT_TOKEN`       | The Telegram bot token                                             | ` `                  |
+| `DISCORD_TOKEN`            | The Discord bot token                                              | ` `                  |
